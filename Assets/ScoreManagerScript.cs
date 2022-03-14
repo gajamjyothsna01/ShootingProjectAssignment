@@ -12,5 +12,9 @@ public class ScoreManagerScript : MonoBehaviour
         score = score + scoreValue;
         Debug.Log(score);
         scoreText.text = score.ToString();
+        if(score > 20)
+        {
+            Debug.Log("GameOver");
+        }
     }
 }
