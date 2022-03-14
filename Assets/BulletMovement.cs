@@ -8,6 +8,7 @@ public class BulletMovement : MonoBehaviour
     float time;
     private AudioSource audioSource;
     public AudioClip explosionSound;
+    public GameObject explosionPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,7 @@ public class BulletMovement : MonoBehaviour
             if(time > 2f)
             {
                 Destroy(gameObject);
+                Destroy(GameObject.FindGameObjectWithTag("Explosion"));
             }
         }
        
@@ -35,6 +37,8 @@ public class BulletMovement : MonoBehaviour
             Destroy(collision.gameObject);
             audioSource.clip = explosionSound;
             audioSource.Play();
+            Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
+            GameObject.Find("ScoreManager").GetComponent<ScoreManagerScript>().Score(10);
         }
       
     }

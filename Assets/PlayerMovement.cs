@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
       //  time = time + Time.deltaTime;
         if(Input.GetButtonDown("Fire1"))
         {
+            //Here method for triple shot, triple shot means releasing three bullets at a time.
 
             Instantiate(bulletPrefab, transform.position+offset, Quaternion.identity);
             bulletSound.clip = audioClip;
@@ -59,9 +61,21 @@ public class PlayerMovement : MonoBehaviour
             //time = 0f;
 
         }
+        else if(Input.GetKeyDown(KeyCode.Space))
+        {
+            //Center bullet Position
+            Instantiate(bulletPrefab, transform.position + offset, Quaternion.identity);
+        }
 
 
        
 
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }
