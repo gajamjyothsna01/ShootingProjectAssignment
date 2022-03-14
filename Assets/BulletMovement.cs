@@ -6,10 +6,12 @@ public class BulletMovement : MonoBehaviour
 {
     public float bulletSpeed;
     float time;
+    private AudioSource audioSource;
+    public AudioClip explosionSound;
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GameObject.Find("SoundManager").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -17,10 +19,23 @@ public class BulletMovement : MonoBehaviour
     {
         if(time < 1f)
         {
-            transform.Translate(new Vector3(bulletSpeed * Time.deltaTime, 0, 0));
+            gameObject.transform.Translate(bulletSpeed, 0, 0);
             time = time + Time.deltaTime;
-            time = 0;
+            if(time > 2f)
+            {
+                Destroy(gameObject);
+            }
         }
        
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            Destroy(collision.gameObject);
+            audioSource.clip = explosionSound;
+            audioSource.Play();
+        }
+      
     }
 }
